@@ -91,7 +91,7 @@
     background:transparent;
   }
   
-  /* Estilos del reproductor multimedia nativo interno */
+  /* Estilos del reproductor multimedia interno corregido */
   .native-player-container {
     display: flex;
     flex-direction: column;
@@ -252,16 +252,16 @@
       </div>
     </div>
 
-    <!-- Panel 11: Buscador y Reproductor Interno -->
+    <!-- Panel 11: Reproductor Multimedia Interno Corregido -->
     <div class="panel">
       <div class="panel-head"><span>11 · Reproductor Multimedia Interno</span></div>
       <div class="native-player-container">
         <div class="player-controls">
-          <input type="text" id="mediaQuery" class="player-input" placeholder="Pega ID de YouTube o término..." value="jfKfPfyJRdk">
-          <button class="player-btn" onclick="playMedia('yt')">▶ Play</button>
+          <input type="text" id="mediaQuery" class="player-input" placeholder="Pega enlace o ID de YouTube..." value="jfKfPfyJRdk">
+          <button class="player-btn" onclick="playMedia()">▶ Cargar</button>
         </div>
         <div class="player-screen">
-          <iframe id="internalPlayer" src="https://www.youtube.com/embed/jfKfPfyJRdk?autoplay=0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+          <iframe id="internalPlayer" src="https://www.youtube-nocookie.com/embed/jfKfPfyJRdk?enablejsapi=1&autoplay=0&rel=0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
         </div>
       </div>
     </div>
@@ -274,15 +274,15 @@
     const query = document.getElementById('mediaQuery').value.trim();
     const iframe = document.getElementById('internalPlayer');
     
-    // Si el usuario ingresa un enlace completo de YouTube o una ID directa
     let videoId = query;
+    // Soporta tanto enlaces completos como IDs directas de YouTube
     if (query.includes('youtube.com') || query.includes('youtu.be')) {
       const match = query.match(/(?:v=|\/)([0-9A-Za-z_-]{11})/);
       if (match) videoId = match[1];
     }
     
-    // Carga el video de manera limpia y nativa dentro del panel sin salir de tu app
-    iframe.src = `https://www.youtube.com/embed/${videoId}?autoplay=1`;
+    // Usamos youtube-nocookie y los permisos requeridos para evitar errores de reproducción
+    iframe.src = `https://www.youtube-nocookie.com/embed/${videoId}?enablejsapi=1&autoplay=1&rel=0`;
   }
 </script>
 </body>
