@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Panel de Mercados</title>
+<title>Panel de Mercados - Esteban FX</title>
 <style>
   :root{
     --bg:#0A0D12;
@@ -11,7 +11,7 @@
     --line:#232A35;
     --text-dim:#7C8798;
     --text:#C9D1DE;
-    --accent:#FFB020; 
+    --accent:#FFB020;
   }
   *{ box-sizing:border-box; }
   html,body{ height:100%; margin:0; background:var(--bg); }
@@ -21,52 +21,49 @@
   }
   .dashboard{
     display:grid;
-    grid-template-rows: 75fr 25fr;
+    grid-template-rows: 75vh 25vh;
     height:100vh;
     height:100dvh;
     width:100%;
-    gap:1px;
+    gap:2px;
     background:var(--line);
   }
   .screen-top{
     display:grid;
-    grid-template-rows: 23fr 21fr 11fr 20fr;
-    gap:1px;
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: repeat(4, 1fr);
+    gap:2px;
     background:var(--line);
     min-height:0;
   }
   .screen-bottom{
     display:grid;
-    grid-template-columns: 11fr 10fr 10fr;
-    gap:1px;
+    grid-template-columns: repeat(3, 1fr);
+    gap:2px;
     background:var(--line);
     min-height:0;
   }
-  .row{
-    display:grid;
-    gap:1px;
-    background:var(--line);
-    min-height:0;
-  }
-  .row-2col{ grid-template-columns: 45fr 55fr; }
   .panel{
     display:flex;
     flex-direction:column;
     min-width:0;
     min-height:0;
     background:var(--panel-bg);
+    position:relative;
   }
   .panel-head{
     display:flex;
     align-items:center;
     justify-content:space-between;
     gap:8px;
-    padding:4px 10px;
-    font-size:11px;
+    padding:4px 8px;
+    font-size:10px;
     letter-spacing:.02em;
     color:var(--text-dim);
     border-bottom:1px solid var(--line);
     flex:0 0 auto;
+    background:var(--panel-bg);
+    z-index:2;
   }
   .panel-head span{
     overflow:hidden;
@@ -79,28 +76,36 @@
     flex:0 0 auto;
   }
   .panel-open:hover{ color:var(--accent); }
-  .panel-frame{
+  .panel-body {
     flex:1 1 auto;
     width:100%;
     height:100%;
+    min-height:0;
+    overflow:hidden;
+    position:relative;
+  }
+  .panel-frame{
+    width:100%;
+    height:100%;
     border:0;
-    background:#fff;
+    background:transparent;
   }
   @media (max-width: 900px){
     .dashboard{
-      display:block;
-      height:100vh;
-      height:100dvh;
+      display:flex;
+      flex-direction:column;
+      height:auto;
       overflow-y:auto;
-      -webkit-overflow-scrolling:touch;
-      scroll-snap-type:y mandatory;
     }
     .screen-top,
     .screen-bottom{
-      height:100vh;
-      height:100dvh;
-      scroll-snap-align:start;
-      scroll-snap-stop:always;
+      display:flex;
+      flex-direction:column;
+      height:auto;
+    }
+    .panel {
+      height: 400px;
+      flex: 0 0 400px;
     }
   }
 </style>
@@ -109,65 +114,94 @@
 <div class="dashboard">
 
   <section class="screen-top">
+    <!-- Panel 1: Gráfico FX (EURUSD) -->
+    <div class="panel">
+      <div class="panel-head"><span>1 · Gráfico FX (EURUSD)</span><a class="panel-open" href="https://es.tradingview.com" target="_blank" rel="noopener noreferrer">↗</a></div>
+      <div class="panel-body">
+        <iframe class="panel-frame" src="https://s.tradingview.com/widgetembed/?symbol=FX%3AEURUSD&interval=D&hidesidetoolbar=0&symboledit=1&saveimage=1&toolbarbg=f1f3f6&studies=[]&theme=dark&style=1&timezone=Etc%2FUTC&allow_symbol_change=1" loading="lazy"></iframe>
+      </div>
+    </div>
 
-  <div class="row row-2col">
+    <!-- Panel 2: Gráfico Oro (XAUUSD) -->
     <div class="panel">
-      <div class="panel-head"><span>1 · investing.com/charts</span><a class="panel-open" href="https://es.investing.com/charts/" target="_blank" rel="noopener noreferrer" title="Abrir en pestaña nueva">↗</a></div>
-      <iframe class="panel-frame" src="https://es.investing.com/charts/" loading="lazy"></iframe>
+      <div class="panel-head"><span>2 · Gráfico Oro (XAUUSD)</span><a class="panel-open" href="https://es.tradingview.com" target="_blank" rel="noopener noreferrer">↗</a></div>
+      <div class="panel-body">
+        <iframe class="panel-frame" src="https://s.tradingview.com/widgetembed/?symbol=OANDA%3AXAUUSD&interval=D&hidesidetoolbar=0&symboledit=1&saveimage=1&toolbarbg=f1f3f6&studies=[]&theme=dark&style=1&timezone=Etc%2FUTC&allow_symbol_change=1" loading="lazy"></iframe>
+      </div>
     </div>
-    <div class="panel">
-      <div class="panel-head"><span>2 · investing.com/charts</span><a class="panel-open" href="https://es.investing.com/charts/" target="_blank" rel="noopener noreferrer" title="Abrir en pestaña nueva">↗</a></div>
-      <iframe class="panel-frame" src="https://es.investing.com/charts/" loading="lazy"></iframe>
-    </div>
-  </div>
 
-  <div class="row row-2col">
+    <!-- Panel 3: Gráfico Nasdaq (NAS100) -->
     <div class="panel">
-      <div class="panel-head"><span>3 · investing.com/charts</span><a class="panel-open" href="https://es.investing.com/charts/" target="_blank" rel="noopener noreferrer" title="Abrir en pestaña nueva">↗</a></div>
-      <iframe class="panel-frame" src="https://es.investing.com/charts/" loading="lazy"></iframe>
+      <div class="panel-head"><span>3 · Gráfico Nasdaq (NAS100)</span><a class="panel-open" href="https://es.tradingview.com" target="_blank" rel="noopener noreferrer">↗</a></div>
+      <div class="panel-body">
+        <iframe class="panel-frame" src="https://s.tradingview.com/widgetembed/?symbol=NASDAQ%3ANDX&interval=D&hidesidetoolbar=0&symboledit=1&saveimage=1&toolbarbg=f1f3f6&studies=[]&theme=dark&style=1&timezone=Etc%2FUTC&allow_symbol_change=1" loading="lazy"></iframe>
+      </div>
     </div>
-    <div class="panel">
-      <div class="panel-head"><span>4 · investing.com/charts</span><a class="panel-open" href="https://es.investing.com/charts/" target="_blank" rel="noopener noreferrer" title="Abrir en pestaña nueva">↗</a></div>
-      <iframe class="panel-frame" src="https://es.investing.com/charts/" loading="lazy"></iframe>
-    </div>
-  </div>
 
-  <div class="row row-2col">
+    <!-- Panel 4: Gráfico Cripto (BTCUSD) -->
     <div class="panel">
-      <div class="panel-head"><span>5 · investing.com/charts</span><a class="panel-open" href="https://es.investing.com/charts/" target="_blank" rel="noopener noreferrer" title="Abrir en pestaña nueva">↗</a></div>
-      <iframe class="panel-frame" src="https://es.investing.com/charts/" loading="lazy"></iframe>
+      <div class="panel-head"><span>4 · Gráfico Cripto (BTCUSD)</span><a class="panel-open" href="https://es.tradingview.com" target="_blank" rel="noopener noreferrer">↗</a></div>
+      <div class="panel-body">
+        <iframe class="panel-frame" src="https://s.tradingview.com/widgetembed/?symbol=BINANCE%3ABTCUSDT&interval=D&hidesidetoolbar=0&symboledit=1&saveimage=1&toolbarbg=f1f3f6&studies=[]&theme=dark&style=1&timezone=Etc%2FUTC&allow_symbol_change=1" loading="lazy"></iframe>
+      </div>
     </div>
-    <div class="panel">
-      <div class="panel-head"><span>6 · investing.com/charts</span><a class="panel-open" href="https://es.investing.com/charts/" target="_blank" rel="noopener noreferrer" title="Abrir en pestaña nueva">↗</a></div>
-      <iframe class="panel-frame" src="https://es.investing.com/charts/" loading="lazy"></iframe>
-    </div>
-  </div>
 
-  <div class="row row-2col">
+    <!-- Panel 5: Gráfico S&P 500 -->
     <div class="panel">
-      <div class="panel-head"><span>7 · koyfin.com</span><a class="panel-open" href="https://app.koyfin.com" target="_blank" rel="noopener noreferrer" title="Abrir en pestaña nueva">↗</a></div>
-      <iframe class="panel-frame" src="https://app.koyfin.com" loading="lazy"></iframe>
+      <div class="panel-head"><span>5 · Gráfico S&P 500 (SPX)</span><a class="panel-open" href="https://es.tradingview.com" target="_blank" rel="noopener noreferrer">↗</a></div>
+      <div class="panel-body">
+        <iframe class="panel-frame" src="https://s.tradingview.com/widgetembed/?symbol=CAPITALCOM%3ASP500&interval=D&hidesidetoolbar=0&symboledit=1&saveimage=1&toolbarbg=f1f3f6&studies=[]&theme=dark&style=1&timezone=Etc%2FUTC&allow_symbol_change=1" loading="lazy"></iframe>
+      </div>
     </div>
-    <div class="panel">
-      <div class="panel-head"><span>8 · investing.com/economic-calendar</span><a class="panel-open" href="https://es.investing.com/economic-calendar/" target="_blank" rel="noopener noreferrer" title="Abrir en pestaña nueva">↗</a></div>
-      <iframe class="panel-frame" src="https://es.investing.com/economic-calendar/" loading="lazy"></iframe>
-    </div>
-  </div>
 
+    <!-- Panel 6: Noticias del Mercado (Timeline) -->
+    <div class="panel">
+      <div class="panel-head"><span>6 · Noticias del Mercado</span><a class="panel-open" href="https://es.tradingview.com/news/" target="_blank" rel="noopener noreferrer">↗</a></div>
+      <div class="panel-body">
+        <iframe class="panel-frame" src="https://s.tradingview.com/embed-widget/timeline/?locale=es#%7B%22feedMode%22%3A%22all_symbols%22%2C%22colorTheme%22%3A%22dark%22%2C%22isTransparent%22%3Afalse%2C%22displayMode%22%3A%22regular%22%2C%22width%22%3A%22100%25%22%2C%22height%22%3A%22100%25%22%7D" loading="lazy"></iframe>
+      </div>
+    </div>
+
+    <!-- Panel 7: Mapa de Calor (Reemplazo Finviz) -->
+    <div class="panel">
+      <div class="panel-head"><span>7 · Mapa de Calor (Finviz/Market)</span><a class="panel-open" href="https://es.tradingview.com/heatmap/" target="_blank" rel="noopener noreferrer">↗</a></div>
+      <div class="panel-body">
+        <iframe class="panel-frame" src="https://s.tradingview.com/embed-widget/stock-heatmap/?locale=es#%7B%22exchange%22%3A%22US%22%2C%22dataSource%22%3A%22SPX500%22%2C%22grouping%22%3A%22sector%22%2C%22blockSize%22%3A%22market_cap_basic%22%2C%22blockColor%22%3A%22change%22%2C%22colorTheme%22%3A%22dark%22%2C%22hasTopBar%22%3Atrue%2C%22isDataSetEnabled%22%3Afalse%2C%22isZoomEnabled%22%3Atrue%2C%22hasSymbolTooltip%22%3Atrue%2C%22width%22%3A%22100%25%22%2C%22height%22%3A%22100%25%22%7D" loading="lazy"></iframe>
+      </div>
+    </div>
+
+    <!-- Panel 8: Calendario Económico (Reemplazo Forex Factory) -->
+    <div class="panel">
+      <div class="panel-head"><span>8 · Calendario Económico</span><a class="panel-open" href="https://es.tradingview.com/events/" target="_blank" rel="noopener noreferrer">↗</a></div>
+      <div class="panel-body">
+        <iframe class="panel-frame" src="https://s.tradingview.com/embed-widget/events/?locale=es#%7B%22colorTheme%22%3A%22dark%22%2C%22isTransparent%22%3Afalse%2C%22width%22%3A%22100%25%22%2C%22height%22%3A%22100%25%22%2C%22importanceFilter%22%3A%220%2C1%22%2C%22currencyFilter%22%3A%22USD%2EUR%2EGBP%2EJPY%2CAUD%22%7D" loading="lazy"></iframe>
+      </div>
+    </div>
   </section>
 
   <section class="screen-bottom">
+    <!-- Panel 9: TradingView Multi-Asset -->
     <div class="panel">
-      <div class="panel-head"><span>9 · tradingview.com</span><a class="panel-open" href="https://es.tradingview.com" target="_blank" rel="noopener noreferrer" title="Abrir en pestaña nueva">↗</a></div>
-      <iframe class="panel-frame" src="https://es.tradingview.com" loading="lazy"></iframe>
+      <div class="panel-head"><span>9 · TradingView Multi-Asset</span><a class="panel-open" href="https://es.tradingview.com" target="_blank" rel="noopener noreferrer">↗</a></div>
+      <div class="panel-body">
+        <iframe class="panel-frame" src="https://s.tradingview.com/widgetembed/?symbol=FX%3AGBPUSD&interval=60&hidesidetoolbar=0&symboledit=1&saveimage=1&toolbarbg=f1f3f6&studies=[]&theme=dark&style=1&timezone=Etc%2FUTC&allow_symbol_change=1" loading="lazy"></iframe>
+      </div>
     </div>
+
+    <!-- Panel 10: Reloj de Mercados -->
     <div class="panel">
-      <div class="panel-head"><span>10 · market24hclock.com</span><a class="panel-open" href="https://market24hclock.com" target="_blank" rel="noopener noreferrer" title="Abrir en pestaña nueva">↗</a></div>
-      <iframe class="panel-frame" src="https://market24hclock.com" loading="lazy"></iframe>
+      <div class="panel-head"><span>10 · Reloj de Mercados (market24hclock.com)</span><a class="panel-open" href="https://market24hclock.com" target="_blank" rel="noopener noreferrer">↗</a></div>
+      <div class="panel-body">
+        <iframe class="panel-frame" src="https://market24hclock.com" loading="lazy"></iframe>
+      </div>
     </div>
+
+    <!-- Panel 11: Buscador Web limpio (DuckDuckGo) -->
     <div class="panel">
-      <div class="panel-head"><span>11 · duckduckgo.com</span><a class="panel-open" href="https://duckduckgo.com/html/" target="_blank" rel="noopener noreferrer" title="Abrir en pestaña nueva">↗</a></div>
-      <iframe class="panel-frame" src="https://duckduckgo.com/html/" loading="lazy"></iframe>
+      <div class="panel-head"><span>11 · Buscador (duckduckgo.com)</span><a class="panel-open" href="https://duckduckgo.com/html/" target="_blank" rel="noopener noreferrer">↗</a></div>
+      <div class="panel-body">
+        <iframe class="panel-frame" src="https://duckduckgo.com/html/" loading="lazy"></iframe>
+      </div>
     </div>
   </section>
 
