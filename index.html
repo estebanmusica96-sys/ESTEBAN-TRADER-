@@ -147,7 +147,7 @@
     flex-direction: column;
   }
   .yt-result-item {
-    padding: 6px 8px;
+    padding: 4px 6px;
     font-size: 9px;
     color: var(--text-dim);
     cursor: pointer;
@@ -191,7 +191,7 @@
     }
     .yt-layout {
       grid-template-columns: 1fr;
-      grid-template-rows: 90px 1fr;
+      grid-template-rows: 70px 1fr;
     }
   }
 </style>
@@ -277,6 +277,7 @@
 </div>
 
 <script>
+  // Tu Clave de API de YouTube configurada nativamente
   const YT_API_KEY = "AIzaSyCgzchU3x68XVIzwhU-iCbRdJcSwn-1XAo";
 
   async function searchYouTubeTracks() {
@@ -287,7 +288,7 @@
     listContainer.innerHTML = '<div class="yt-result-item">Buscando...</div>';
 
     try {
-      const url = `https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=15&q=${encodeURIComponent(query)}&type=video&key=${YT_API_KEY}`;
+      const url = `https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=10&q=${encodeURIComponent(query)}&type=video&key=${YT_API_KEY}`;
       const response = await fetch(url);
       const data = await response.json();
 
@@ -305,15 +306,13 @@
 
       data.items.forEach(item => {
         const videoId = item.id.videoId;
-        let title = item.snippet.title;
-        // Limpiar entidades HTML comunes en los títulos de YouTube
-        title = title.replace(/&amp;/g, '&').replace(/&#39;/g, "'").replace(/&quot;/g, '"');
+        const title = item.snippet.title;
         const channel = item.snippet.channelTitle;
 
         const div = document.createElement('div');
         div.className = 'yt-result-item';
         div.innerText = `${title} (${channel})`;
-        div.title = `${title} - ${channel}`;
+        div.title = title;
         div.onclick = () => playYtVideo(videoId, title);
         listContainer.appendChild(div);
       });
@@ -330,6 +329,7 @@
     iframe.src = `https://www.youtube-nocookie.com/embed/${videoId}?enablejsapi=1&autoplay=1`;
   }
 
+  // Carga automática al iniciar la página con el valor por defecto
   window.onload = () => {
     searchYouTubeTracks();
   };
