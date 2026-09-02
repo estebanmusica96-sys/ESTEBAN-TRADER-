@@ -91,8 +91,8 @@
     background:transparent;
   }
   
-  /* Estilos del reproductor multimedia interno corregido */
-  .native-player-container {
+  /* Reproductor Spotify Interno con Buscador Integrado */
+  .spotify-container {
     display: flex;
     flex-direction: column;
     height: 100%;
@@ -100,11 +100,11 @@
     padding: 6px;
     gap: 6px;
   }
-  .player-controls {
+  .spotify-controls {
     display: flex;
     gap: 4px;
   }
-  .player-input {
+  .spotify-input {
     flex: 1;
     background: var(--bg);
     border: 1px solid var(--line);
@@ -114,11 +114,11 @@
     font-size: 10px;
     border-radius: 2px;
   }
-  .player-input:focus {
-    border-color: var(--accent);
+  .spotify-input:focus {
+    border-color: #1DB954;
     outline: none;
   }
-  .player-btn {
+  .spotify-btn {
     background: var(--line);
     border: none;
     color: var(--text);
@@ -128,19 +128,21 @@
     cursor: pointer;
     border-radius: 2px;
   }
-  .player-btn:hover {
-    background: var(--accent);
-    color: var(--bg);
+  .spotify-btn:hover {
+    background: #1DB954;
+    color: #fff;
   }
-  .player-screen {
+  .spotify-screen {
     flex: 1;
     width: 100%;
     background: #000;
     border-radius: 2px;
     overflow: hidden;
     position: relative;
+    display: flex;
+    flex-direction: column;
   }
-  .player-screen iframe {
+  .spotify-screen iframe {
     width: 100%;
     height: 100%;
     border: none;
@@ -214,7 +216,7 @@
     <div class="panel">
       <div class="panel-head"><span>6 · Gráfico DXY (Índice Dólar)</span><a class="panel-open" href="https://es.tradingview.com" target="_blank" rel="noopener noreferrer">↗</a></div>
       <div class="panel-body">
-        <iframe class="panel-frame" src="https://s.tradingview.com/widgetembed/?symbol=CAPITALCOM%3ADXY&interval=D&hidesidetoolbar=0&symboledit=1&saveimage=1&toolbarbg=f1f3f6&studies=[]&timezone=Etc%2FUTC&allow_symbol_change=1" loading="lazy"></iframe>
+        <iframe class="panel-frame" src="https://s.tradingview.com/widgetembed/?symbol=CAPITALCOM%3ADXY&interval=D&hidesidetoolbar=0&symboledit=1&saveimage=1&timezone=Etc%2FUTC&allow_symbol_change=1" loading="lazy"></iframe>
       </div>
     </div>
 
@@ -252,16 +254,17 @@
       </div>
     </div>
 
-    <!-- Panel 11: Reproductor Multimedia Interno Corregido -->
+    <!-- Panel 11: Reproductor Spotify con Buscador de Canciones/Artistas -->
     <div class="panel">
-      <div class="panel-head"><span>11 · Reproductor Multimedia Interno</span></div>
-      <div class="native-player-container">
-        <div class="player-controls">
-          <input type="text" id="mediaQuery" class="player-input" placeholder="Pega enlace o ID de YouTube..." value="jfKfPfyJRdk">
-          <button class="player-btn" onclick="playMedia()">▶ Cargar</button>
+      <div class="panel-head"><span>11 · Spotify Reproductor Interno</span></div>
+      <div class="spotify-container">
+        <div class="spotify-controls">
+          <input type="text" id="spotifyQuery" class="spotify-input" placeholder="Busca artista, canción o URI de Spotify..." value="Eladio Carrion">
+          <button class="spotify-btn" onclick="searchSpotify()">🔍 Buscar</button>
         </div>
-        <div class="player-screen">
-          <iframe id="internalPlayer" src="https://www.youtube-nocookie.com/embed/jfKfPfyJRdk?enablejsapi=1&autoplay=0&rel=0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        <div class="spotify-screen">
+          <!-- Reproductor embebido oficial de Spotify en modo oscuro adaptado al panel -->
+          <iframe id="spotifyPlayer" src="https://open.spotify.com/embed/search/Eladio%20Carrion?utm_source=generator&theme=0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
         </div>
       </div>
     </div>
@@ -270,19 +273,31 @@
 </div>
 
 <script>
-  function playMedia() {
-    const query = document.getElementById('mediaQuery').value.trim();
-    const iframe = document.getElementById('internalPlayer');
+  function searchSpotify() {
+    const query = document.getElementById('spotifyQuery').value.trim();
+    const iframe = document.getElementById('spotifyPlayer');
     
-    let videoId = query;
-    // Soporta tanto enlaces completos como IDs directas de YouTube
-    if (query.includes('youtube.com') || query.includes('youtu.be')) {
-      const match = query.match(/(?:v=|\/)([0-9A-Za-z_-]{11})/);
-      if (match) videoId = match[1];
+    if (!query) return;
+
+    let embedUrl = "";
+    
+    // Si el usuario pega una URI de Spotify directa (ej: spotify:track:...) o un enlace web de Spotify
+    if (query.startsWith('spotify:')) {
+      const parts = query.split(':');
+      const type = parts[1]; // track, album, playlist, artist
+      const id = parts[2];
+      embedUrl = `https://open.spotify.com/embed/${type}/${id}?utm_source=generator&theme=0`;
+    } else if (query.includes('open.spotify.com')) {
+      // Extrae la ruta de un enlace web completo de Spotify
+      const cleanUrl = query.split('?')[0];
+      embedUrl = cleanUrl.replace('open.spotify.com/', 'open.spotify.com/embed/') + '?utm_source=generator&theme=0';
+    } else {
+      // Utiliza el buscador nativo interno de la vista embebida de Spotify
+      const encodedQuery = encodeURIComponent(query);
+      embedUrl = `https://open.spotify.com/embed/search/${encodedQuery}?utm_source=generator&theme=0`;
     }
     
-    // Usamos youtube-nocookie y los permisos requeridos para evitar errores de reproducción
-    iframe.src = `https://www.youtube-nocookie.com/embed/${videoId}?enablejsapi=1&autoplay=1&rel=0`;
+    iframe.src = embedUrl;
   }
 </script>
 </body>
