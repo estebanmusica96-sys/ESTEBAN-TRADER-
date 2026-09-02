@@ -2,30 +2,31 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>Panel de Mercados - Esteban FX</title>
 <style>
-  :root{
-    --bg:#0A0D12;
-    --panel-bg:#10141B;
-    --line:#232A35;
-    --text-dim:#7C8798;
-    --text:#C9D1DE;
-    --accent:#FFB020;
-    --yt-red:#FF0000;
+  :root {
+    --bg: #0A0D12;
+    --panel-bg: #10141B;
+    --line: #232A35;
+    --text-dim: #7C8798;
+    --text: #C9D1DE;
+    --accent: #FFB020;
+    --yt-red: #FF0000;
   }
-  *{ box-sizing:border-box; }
+  * { box-sizing: border-box; }
   html, body {
     height: 100%;
     margin: 0;
     background: var(--bg);
     overflow-y: auto;
+    -webkit-text-size-adjust: 100%;
   }
-  body{
+  body {
     font-family: ui-monospace, "SFMono-Regular", Menlo, Consolas, "Liberation Mono", monospace;
     color: var(--text);
   }
-  .dashboard{
+  .dashboard {
     display: flex;
     flex-direction: column;
     width: 100%;
@@ -33,19 +34,16 @@
     background: var(--line);
     padding: 4px;
   }
-  .screen-top{
+  
+  /* Cuadrícula adaptable inteligente para PC y Android (Horizontal / Vertical) */
+  .grid-responsive {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(auto-fit, minmax(310px, 1fr));
     gap: 4px;
     background: var(--line);
   }
-  .screen-bottom{
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 4px;
-    background: var(--line);
-  }
-  .panel{
+
+  .panel {
     display: flex;
     flex-direction: column;
     background: var(--panel-bg);
@@ -54,7 +52,7 @@
     border-radius: 4px;
     overflow: hidden;
   }
-  .panel-head{
+  .panel-head {
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -67,23 +65,25 @@
     background: var(--panel-bg);
     z-index: 2;
   }
-  .panel-head span{
+  .panel-head span {
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
   }
-  .panel-open{
+  .panel-open {
     color: var(--text-dim);
     text-decoration: none;
   }
-  .panel-open:hover{ color: var(--accent); }
+  .panel-open:hover { color: var(--accent); }
+  
   .panel-body {
     flex: 1;
     width: 100%;
     height: 100%;
     position: relative;
+    min-height: 0;
   }
-  .panel-frame{
+  .panel-frame {
     width: 100%;
     height: 100%;
     border: 0;
@@ -172,16 +172,9 @@
     border: none;
   }
 
-  @media (max-width: 1300px){
-    .screen-top {
-      grid-template-columns: repeat(2, 1fr);
-    }
-    .screen-bottom {
-      grid-template-columns: 1fr;
-    }
-  }
-  @media (max-width: 650px){
-    .screen-top {
+  /* Ajustes específicos para pantallas móviles muy estrechas */
+  @media (max-width: 480px) {
+    .grid-responsive {
       grid-template-columns: 1fr;
     }
     .panel {
@@ -197,7 +190,7 @@
 <body>
 <div class="dashboard">
 
-  <section class="screen-top">
+  <section class="grid-responsive">
     <!-- Panel 1: Gráfico FX (EURUSD) -->
     <div class="panel">
       <div class="panel-head"><span>1 · Gráfico FX (EURUSD)</span><a class="panel-open" href="https://es.tradingview.com" target="_blank" rel="noopener noreferrer">↗</a></div>
@@ -261,9 +254,7 @@
         <iframe class="panel-frame" src="https://s.tradingview.com/embed-widget/events/?locale=es#%7B%22colorTheme%22%3A%22dark%22%2C%22isTransparent%22%3Afalse%2C%22width%22%3A%22100%25%22%2C%22height%22%3A%22100%25%22%2C%22importanceFilter%22%3A%220%2C1%22%2C%22currencyFilter%22%3A%22USD%2EUR%2EGBP%2EJPY%2CAUD%22%7D" loading="lazy"></iframe>
       </div>
     </div>
-  </section>
 
-  <section class="screen-bottom">
     <!-- Panel 9: TradingView Multi-Asset -->
     <div class="panel">
       <div class="panel-head"><span>9 · TradingView Multi-Asset</span><a class="panel-open" href="https://es.tradingview.com" target="_blank" rel="noopener noreferrer">↗</a></div>
@@ -361,4 +352,3 @@
 </script>
 </body>
 </html>
-
