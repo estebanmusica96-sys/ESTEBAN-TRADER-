@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Panel de Mercados</title>
+<style>
+  :root{
+    --bg:#0A0D12;
+    --panel-bg:#10141B;
+    --line:#232A35;
+    --text-dim:#7C8798;
+    --text:#C9D1DE;
+    --accent:#FFB020;
+  }
+  *{ box-sizing:border-box; }
+  html,body{ height:100%; margin:0; background:var(--bg); }
+  body{
+    font-family: ui-monospace, "SFMono-Regular", Menlo, Consolas, "Liberation Mono", monospace;
+    color:var(--text);
+  }
+  .dashboard{
+    display:grid;
+    grid-template-rows: 75fr 25fr;
+    height:100vh;
+    height:100dvh;
+    width:100%;
+    gap:1px;
+    background:var(--line);
+  }
+  .screen-top{
+    display:grid;
+    grid-template-rows: 23fr 21fr 11fr 20fr;
+    gap:1px;
+    background:var(--line);
+    min-height:0;
+  }
+  .screen-bottom{
+    display:grid;
+    grid-template-columns: 11fr 10fr 10fr;
+    gap:1px;
+    background:var(--line);
+    min-height:0;
+  }
+  .row{
+    display:grid;
+    gap:1px;
+    background:var(--line);
+    min-height:0;
+  }
+  .row-2col{ grid-template-columns: 45fr 55fr; }
+  .panel{
+    display:flex;
+    flex-direction:column;
+    min-width:0;
+    min-height:0;
+    background:var(--panel-bg);
+  }
+  .panel-head{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:8px;
+    padding:4px 10px;
+    font-size:11px;
+    letter-spacing:.02em;
+    color:var(--text-dim);
+    border-bottom:1px solid var(--line);
+    flex:0 0 auto;
+  }
+  .panel-head span{
+    overflow:hidden;
+    text-overflow:ellipsis;
+    white-space:nowrap;
+  }
+  .panel-open{
+    color:var(--text-dim);
+    text-decoration:none;
+    flex:0 0 auto;
+  }
+  .panel-open:hover{ color:var(--accent); }
+  .panel-frame{
+    flex:1 1 auto;
+    width:100%;
+    height:100%;
+    border:0;
+    background:#fff;
+  }
+  @media (max-width: 900px){
+    .dashboard{
+      display:block;
+      height:100vh;
+      height:100dvh;
+      overflow-y:auto;
+      -webkit-overflow-scrolling:touch;
+      scroll-snap-type:y mandatory;
+    }
+    .screen-top,
+    .screen-bottom{
+      height:100vh;
+      height:100dvh;
+      scroll-snap-align:start;
+      scroll-snap-stop:always;
+    }
+  }
+</style>
+</head>
+<body>
+<div class="dashboard">
+
+  <section class="screen-top">
+
+  <div class="row row-2col">
+    <div class="panel">
+      <div class="panel-head"><span>1 · investing.com/charts</span><a class="panel-open" href="https://es.investing.com/charts/" target="_blank" rel="noopener noreferrer" title="Abrir en pestaña nueva">↗</a></div>
+      <iframe class="panel-frame" src="https://es.investing.com/charts/" loading="lazy"></iframe>
+    </div>
+    <div class="panel">
+      <div class="panel-head"><span>2 · investing.com/charts</span><a class="panel-open" href="https://es.investing.com/charts/" target="_blank" rel="noopener noreferrer" title="Abrir en pestaña nueva">↗</a></div>
+      <iframe class="panel-frame" src="https://es.investing.com/charts/" loading="lazy"></iframe>
+    </div>
+  </div>
+
+  <div class="row row-2col">
+    <div class="panel">
+      <div class="panel-head"><span>3 · investing.com/charts</span><a class="panel-open" href="https://es.investing.com/charts/" target="_blank" rel="noopener noreferrer" title="Abrir en pestaña nueva">↗</a></div>
+      <iframe class="panel-frame" src="https://es.investing.com/charts/" loading="lazy"></iframe>
+    </div>
+    <div class="panel">
+      <div class="panel-head"><span>4 · investing.com/charts</span><a class="panel-open" href="https://es.investing.com/charts/" target="_blank" rel="noopener noreferrer" title="Abrir en pestaña nueva">↗</a></div>
+      <iframe class="panel-frame" src="https://es.investing.com/charts/" loading="lazy"></iframe>
+    </div>
+  </div>
+
+  <div class="row row-2col">
+    <div class="panel">
+      <div class="panel-head"><span>5 · investing.com/charts</span><a class="panel-open" href="https://es.investing.com/charts/" target="_blank" rel="noopener noreferrer" title="Abrir en pestaña nueva">↗</a></div>
+      <iframe class="panel-frame" src="https://es.investing.com/charts/" loading="lazy"></iframe>
+    </div>
+    <div class="panel">
+      <div class="panel-head"><span>6 · investing.com/charts</span><a class="panel-open" href="https://es.investing.com/charts/" target="_blank" rel="noopener noreferrer" title="Abrir en pestaña nueva">↗</a></div>
+      <iframe class="panel-frame" src="https://es.investing.com/charts/" loading="lazy"></iframe>
+    </div>
+  </div>
+
+  <div class="row row-2col">
+    <div class="panel">
+      <div class="panel-head"><span>7 · koyfin.com</span><a class="panel-open" href="https://app.koyfin.com" target="_blank" rel="noopener noreferrer" title="Abrir en pestaña nueva">↗</a></div>
+      <iframe class="panel-frame" src="https://app.koyfin.com" loading="lazy"></iframe>
+    </div>
+    <div class="panel">
+      <div class="panel-head"><span>8 · investing.com/economic-calendar</span><a class="panel-open" href="https://es.investing.com/economic-calendar/" target="_blank" rel="noopener noreferrer" title="Abrir en pestaña nueva">↗</a></div>
+      <iframe class="panel-frame" src="https://es.investing.com/economic-calendar/" loading="lazy"></iframe>
+    </div>
+  </div>
+
+  </section>
+
+  <section class="screen-bottom">
+    <div class="panel">
+      <div class="panel-head"><span>9 · tradingview.com</span><a class="panel-open" href="https://es.tradingview.com" target="_blank" rel="noopener noreferrer" title="Abrir en pestaña nueva">↗</a></div>
+      <iframe class="panel-frame" src="https://es.tradingview.com" loading="lazy"></iframe>
+    </div>
+    <div class="panel">
+      <div class="panel-head"><span>10 · market24hclock.com</span><a class="panel-open" href="https://market24hclock.com" target="_blank" rel="noopener noreferrer" title="Abrir en pestaña nueva">↗</a></div>
+      <iframe class="panel-frame" src="https://market24hclock.com" loading="lazy"></iframe>
+    </div>
+    <div class="panel">
+      <div class="panel-head"><span>11 · duckduckgo.com</span><a class="panel-open" href="https://duckduckgo.com/html/" target="_blank" rel="noopener noreferrer" title="Abrir en pestaña nueva">↗</a></div>
+      <iframe class="panel-frame" src="https://duckduckgo.com/html/" loading="lazy"></iframe>
+    </div>
+  </section>
+
+</div>
+</body>
+</html>
