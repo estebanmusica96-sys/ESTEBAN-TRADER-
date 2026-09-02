@@ -15,84 +15,81 @@
     --yt-red:#FF0000;
   }
   *{ box-sizing:border-box; }
-  html,body{ height:100%; margin:0; background:var(--bg); }
+  html, body {
+    height: 100%;
+    margin: 0;
+    background: var(--bg);
+    overflow-y: auto;
+  }
   body{
     font-family: ui-monospace, "SFMono-Regular", Menlo, Consolas, "Liberation Mono", monospace;
-    color:var(--text);
+    color: var(--text);
   }
   .dashboard{
-    display:grid;
-    grid-template-rows: 75vh 25vh;
-    height:100vh;
-    height:100dvh;
-    width:100%;
-    gap:2px;
-    background:var(--line);
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    gap: 4px;
+    background: var(--line);
+    padding: 4px;
   }
   .screen-top{
-    display:grid;
-    grid-template-columns: repeat(2, 1fr);
-    grid-template-rows: repeat(4, 1fr);
-    gap:2px;
-    background:var(--line);
-    min-height:0;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 4px;
+    background: var(--line);
   }
   .screen-bottom{
-    display:grid;
+    display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap:2px;
-    background:var(--line);
-    min-height:0;
+    gap: 4px;
+    background: var(--line);
   }
   .panel{
-    display:flex;
-    flex-direction:column;
-    min-width:0;
-    min-height:0;
-    background:var(--panel-bg);
-    position:relative;
+    display: flex;
+    flex-direction: column;
+    background: var(--panel-bg);
+    position: relative;
+    height: 420px;
+    border-radius: 4px;
+    overflow: hidden;
   }
   .panel-head{
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    gap:8px;
-    padding:4px 8px;
-    font-size:10px;
-    letter-spacing:.02em;
-    color:var(--text-dim);
-    border-bottom:1px solid var(--line);
-    flex:0 0 auto;
-    background:var(--panel-bg);
-    z-index:2;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    padding: 6px 10px;
+    font-size: 11px;
+    letter-spacing: .02em;
+    color: var(--text-dim);
+    border-bottom: 1px solid var(--line);
+    background: var(--panel-bg);
+    z-index: 2;
   }
   .panel-head span{
-    overflow:hidden;
-    text-overflow:ellipsis;
-    white-space:nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
   }
   .panel-open{
-    color:var(--text-dim);
-    text-decoration:none;
-    flex:0 0 auto;
+    color: var(--text-dim);
+    text-decoration: none;
   }
-  .panel-open:hover{ color:var(--accent); }
+  .panel-open:hover{ color: var(--accent); }
   .panel-body {
-    flex:1 1 auto;
-    width:100%;
-    height:100%;
-    min-height:0;
-    overflow:hidden;
-    position:relative;
+    flex: 1;
+    width: 100%;
+    height: 100%;
+    position: relative;
   }
   .panel-frame{
-    width:100%;
-    height:100%;
-    border:0;
-    background:transparent;
+    width: 100%;
+    height: 100%;
+    border: 0;
+    background: transparent;
   }
   
-  /* Reproductor Multimedia y Buscador de YouTube Integrado */
   .yt-player-container {
     display: flex;
     flex-direction: column;
@@ -100,19 +97,17 @@
     background: var(--panel-bg);
     padding: 6px;
     gap: 4px;
-    overflow: hidden;
   }
   .yt-search-box {
     display: flex;
     gap: 4px;
-    flex: 0 0 auto;
   }
   .yt-search-input {
     flex: 1;
     background: var(--bg);
     border: 1px solid var(--line);
     color: var(--text);
-    padding: 4px 8px;
+    padding: 6px 8px;
     font-family: inherit;
     font-size: 10px;
     border-radius: 2px;
@@ -125,7 +120,7 @@
     background: var(--line);
     border: none;
     color: var(--text);
-    padding: 4px 8px;
+    padding: 6px 10px;
     font-family: inherit;
     font-size: 10px;
     cursor: pointer;
@@ -177,22 +172,20 @@
     border: none;
   }
 
-  @media (max-width: 900px){
-    .dashboard{
-      display:flex;
-      flex-direction:column;
-      height:auto;
-      overflow-y:auto;
+  @media (max-width: 1300px){
+    .screen-top {
+      grid-template-columns: repeat(2, 1fr);
     }
-    .screen-top,
-    .screen-bottom{
-      display:flex;
-      flex-direction:column;
-      height:auto;
+    .screen-bottom {
+      grid-template-columns: 1fr;
+    }
+  }
+  @media (max-width: 650px){
+    .screen-top {
+      grid-template-columns: 1fr;
     }
     .panel {
-      height: 400px;
-      flex: 0 0 400px;
+      height: 380px;
     }
     .yt-layout {
       grid-template-columns: 1fr;
@@ -241,7 +234,7 @@
     <div class="panel">
       <div class="panel-head"><span>5 · Gráfico S&P 500 (SPX)</span><a class="panel-open" href="https://es.tradingview.com" target="_blank" rel="noopener noreferrer">↗</a></div>
       <div class="panel-body">
-        <iframe class="panel-frame" src="https://s.tradingview.com/widgetembed/?symbol=CAPITALCOM%3ASP500&interval=D&hidesidetoolbar=0&symboledit=1&saveimage=1&toolbarbg=f1f3f6&studies=[]&theme=dark&style=1&timezone=Etc%2FUTC&allow_symbol_change=1" loading="lazy"></iframe>
+        <iframe class="panel-frame" src="https://s.tradingview.com/widgetembed/?symbol=OANDA%3ASPX500USD&interval=D&hidesidetoolbar=0&symboledit=1&saveimage=1&toolbarbg=f1f3f6&studies=[]&theme=dark&style=1&timezone=Etc%2FUTC&allow_symbol_change=1" loading="lazy"></iframe>
       </div>
     </div>
 
@@ -249,7 +242,7 @@
     <div class="panel">
       <div class="panel-head"><span>6 · Gráfico DXY (Índice Dólar)</span><a class="panel-open" href="https://es.tradingview.com" target="_blank" rel="noopener noreferrer">↗</a></div>
       <div class="panel-body">
-        <iframe class="panel-frame" src="https://s.tradingview.com/widgetembed/?symbol=CAPITALCOM%3ADXY&interval=D&hidesidetoolbar=0&symboledit=1&saveimage=1&timezone=Etc%2FUTC&allow_symbol_change=1" loading="lazy"></iframe>
+        <iframe class="panel-frame" src="https://s.tradingview.com/widgetembed/?symbol=CAPITALCOM%3ADXY&interval=D&hidesidetoolbar=0&symboledit=1&timezone=Etc%2FUTC&allow_symbol_change=1" loading="lazy"></iframe>
       </div>
     </div>
 
@@ -367,5 +360,5 @@
   };
 </script>
 </body>
-        </html>
-        
+</html>
+
