@@ -90,6 +90,35 @@
     border:0;
     background:transparent;
   }
+  .media-tabs {
+    display: flex;
+    background: #0A0D12;
+    border-bottom: 1px solid var(--line);
+  }
+  .media-tab {
+    flex: 1;
+    background: none;
+    border: none;
+    color: var(--text-dim);
+    font-family: inherit;
+    font-size: 9px;
+    padding: 4px;
+    cursor: pointer;
+    text-align: center;
+  }
+  .media-tab.active {
+    color: var(--accent);
+    background: var(--panel-bg);
+    border-bottom: 1px solid var(--accent);
+  }
+  .media-content {
+    display: none;
+    width: 100%;
+    height: calc(100% - 22px);
+  }
+  .media-content.active {
+    display: block;
+  }
   @media (max-width: 900px){
     .dashboard{
       display:flex;
@@ -158,11 +187,11 @@
     <div class="panel">
       <div class="panel-head"><span>6 · Gráfico DXY (Índice Dólar)</span><a class="panel-open" href="https://es.tradingview.com" target="_blank" rel="noopener noreferrer">↗</a></div>
       <div class="panel-body">
-        <iframe class="panel-frame" src="https://s.tradingview.com/widgetembed/?symbol=CAPITALCOM%3ADXY&interval=D&hidesidetoolbar=0&symboledit=1&saveimage=1&toolbarbg=f1f3f6&studies=[]&timezone=Etc%2FUTC&allow_symbol_change=1" loading="lazy"></iframe>
+        <iframe class="panel-frame" src="https://s.tradingview.com/widgetembed/?symbol=CAPITALCOM%3ADXY&interval=D&hidesidetoolbar=0&symboledit=1&saveimage=1&toolbarbg=f1f3f6&studies=[]&theme=dark&style=1&timezone=Etc%2FUTC&allow_symbol_change=1" loading="lazy"></iframe>
       </div>
     </div>
 
-    <!-- Panel 7: Mapa de Calor Interactivo (Compatible) -->
+    <!-- Panel 7: Mapa de Calor Interactivo -->
     <div class="panel">
       <div class="panel-head"><span>7 · Mapa de Calor Interactivo</span><a class="panel-open" href="https://es.tradingview.com/heatmap/" target="_blank" rel="noopener noreferrer">↗</a></div>
       <div class="panel-body">
@@ -196,15 +225,35 @@
       </div>
     </div>
 
-    <!-- Panel 11: Buscador Web Funcional (DuckDuckGo Lite) -->
+    <!-- Panel 11: Reproductor Multimedia (Spotify y YouTube con pestañas) -->
     <div class="panel">
-      <div class="panel-head"><span>11 · Buscador Web (html.duckduckgo.com)</span><a class="panel-open" href="https://html.duckduckgo.com/html/" target="_blank" rel="noopener noreferrer">↗</a></div>
+      <div class="panel-head"><span>11 · Multimedia (Música y Video)</span></div>
+      <div class="media-tabs">
+        <button class="media-tab active" onclick="switchMedia('spotify', event)">🎵 Spotify</button>
+        <button class="media-tab" onclick="switchMedia('youtube', event)">▶ YouTube</button>
+      </div>
       <div class="panel-body">
-        <iframe class="panel-frame" src="https://html.duckduckgo.com/html/" loading="lazy"></iframe>
+        <div id="spotify-content" class="media-content active">
+          <!-- Reproductor de Spotify (Lista de reproducción o pista incrustada) -->
+          <iframe class="panel-frame" src="https://open.spotify.com/embed/playlist/37i9dQZF1DXcBWIGoYBM5M?utm_source=generator&theme=0" loading="lazy"></iframe>
+        </div>
+        <div id="youtube-content" class="media-content">
+          <!-- Reproductor de YouTube (Video de análisis o streaming de trading por defecto) -->
+          <iframe class="panel-frame" src="https://www.youtube.com/embed/live_stream?channel=UCuoUsQioaGkXmC8tHlYt1zA" loading="lazy"></iframe>
+        </div>
       </div>
     </div>
   </section>
 
 </div>
+
+<script>
+  function switchMedia(type, evt) {
+    document.querySelectorAll('.media-content').forEach(el => el.classList.remove('active'));
+    document.querySelectorAll('.media-tab').forEach(el => el.classList.remove('active'));
+    document.getElementById(type + '-content').classList.add('active');
+    evt.currentTarget.classList.add('active');
+  }
+</script>
 </body>
 </html>
