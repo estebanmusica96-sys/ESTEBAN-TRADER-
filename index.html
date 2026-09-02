@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Panel de Mercados - Esteban FX</title>
+<title>Panel de Mercados</title>
 <style>
   :root{
     --bg:#0A0D12;
@@ -12,6 +12,7 @@
     --text-dim:#7C8798;
     --text:#C9D1DE;
     --accent:#FFB020;
+    --yt-red:#FF0000;
   }
   *{ box-sizing:border-box; }
   html,body{ height:100%; margin:0; background:var(--bg); }
@@ -21,49 +22,52 @@
   }
   .dashboard{
     display:grid;
-    grid-template-rows: 75vh 25vh;
+    grid-template-rows: 75fr 25fr;
     height:100vh;
     height:100dvh;
     width:100%;
-    gap:2px;
+    gap:1px;
     background:var(--line);
   }
   .screen-top{
     display:grid;
-    grid-template-columns: repeat(2, 1fr);
-    grid-template-rows: repeat(4, 1fr);
-    gap:2px;
+    grid-template-rows: 23fr 21fr 11fr 20fr;
+    gap:1px;
     background:var(--line);
     min-height:0;
   }
   .screen-bottom{
     display:grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap:2px;
+    grid-template-columns: 11fr 10fr 10fr;
+    gap:1px;
     background:var(--line);
     min-height:0;
   }
+  .row{
+    display:grid;
+    gap:1px;
+    background:var(--line);
+    min-height:0;
+  }
+  .row-2col{ grid-template-columns: 45fr 55fr; }
   .panel{
     display:flex;
     flex-direction:column;
     min-width:0;
     min-height:0;
     background:var(--panel-bg);
-    position:relative;
   }
   .panel-head{
     display:flex;
     align-items:center;
     justify-content:space-between;
     gap:8px;
-    padding:4px 8px;
-    font-size:10px;
+    padding:4px 10px;
+    font-size:11px;
     letter-spacing:.02em;
     color:var(--text-dim);
     border-bottom:1px solid var(--line);
     flex:0 0 auto;
-    background:var(--panel-bg);
-    z-index:2;
   }
   .panel-head span{
     overflow:hidden;
@@ -76,35 +80,30 @@
     flex:0 0 auto;
   }
   .panel-open:hover{ color:var(--accent); }
-  .panel-body {
+  .panel-frame{
     flex:1 1 auto;
     width:100%;
     height:100%;
-    min-height:0;
-    overflow:hidden;
-    position:relative;
-  }
-  .panel-frame{
-    width:100%;
-    height:100%;
     border:0;
-    background:transparent;
+    background:#fff;
   }
-  
-  /* Reproductor Spotify Interno con Buscador Integrado */
-  .spotify-container {
+
+  /* Estilos del Buscador y Reproductor Integrado con API de YouTube */
+  .yt-player-container {
     display: flex;
     flex-direction: column;
     height: 100%;
     background: var(--panel-bg);
     padding: 6px;
-    gap: 6px;
+    gap: 4px;
+    overflow: hidden;
   }
-  .spotify-controls {
+  .yt-search-box {
     display: flex;
     gap: 4px;
+    flex: 0 0 auto;
   }
-  .spotify-input {
+  .yt-search-input {
     flex: 1;
     background: var(--bg);
     border: 1px solid var(--line);
@@ -114,11 +113,11 @@
     font-size: 10px;
     border-radius: 2px;
   }
-  .spotify-input:focus {
-    border-color: #1DB954;
+  .yt-search-input:focus {
+    border-color: var(--yt-red);
     outline: none;
   }
-  .spotify-btn {
+  .yt-search-btn {
     background: var(--line);
     border: none;
     color: var(--text);
@@ -128,21 +127,47 @@
     cursor: pointer;
     border-radius: 2px;
   }
-  .spotify-btn:hover {
-    background: #1DB954;
+  .yt-search-btn:hover {
+    background: var(--yt-red);
     color: #fff;
   }
-  .spotify-screen {
+  .yt-layout {
+    display: grid;
+    grid-template-columns: 1fr 1.2fr;
+    gap: 4px;
     flex: 1;
-    width: 100%;
+    min-height: 0;
+  }
+  .yt-results-list {
+    background: var(--bg);
+    border: 1px solid var(--line);
+    border-radius: 2px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+  }
+  .yt-result-item {
+    padding: 6px 8px;
+    font-size: 9px;
+    color: var(--text-dim);
+    cursor: pointer;
+    border-bottom: 1px solid var(--line);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .yt-result-item:hover {
+    background: var(--line);
+    color: var(--text);
+  }
+  .yt-screen {
     background: #000;
     border-radius: 2px;
     overflow: hidden;
     position: relative;
-    display: flex;
-    flex-direction: column;
+    height: 100%;
   }
-  .spotify-screen iframe {
+  .yt-screen iframe {
     width: 100%;
     height: 100%;
     border: none;
@@ -150,20 +175,23 @@
 
   @media (max-width: 900px){
     .dashboard{
-      display:flex;
-      flex-direction:column;
-      height:auto;
+      display:block;
+      height:100vh;
+      height:100dvh;
       overflow-y:auto;
+      -webkit-overflow-scrolling:touch;
+      scroll-snap-type:y mandatory;
     }
     .screen-top,
     .screen-bottom{
-      display:flex;
-      flex-direction:column;
-      height:auto;
+      height:100vh;
+      height:100dvh;
+      scroll-snap-align:start;
+      scroll-snap-stop:always;
     }
-    .panel {
-      height: 400px;
-      flex: 0 0 400px;
+    .yt-layout {
+      grid-template-columns: 1fr;
+      grid-template-rows: 90px 1fr;
     }
   }
 </style>
@@ -172,99 +200,75 @@
 <div class="dashboard">
 
   <section class="screen-top">
-    <!-- Panel 1: Gráfico FX (EURUSD) -->
-    <div class="panel">
-      <div class="panel-head"><span>1 · Gráfico FX (EURUSD)</span><a class="panel-open" href="https://es.tradingview.com" target="_blank" rel="noopener noreferrer">↗</a></div>
-      <div class="panel-body">
-        <iframe class="panel-frame" src="https://s.tradingview.com/widgetembed/?symbol=FX%3AEURUSD&interval=D&hidesidetoolbar=0&symboledit=1&saveimage=1&toolbarbg=f1f3f6&studies=[]&theme=dark&style=1&timezone=Etc%2FUTC&allow_symbol_change=1" loading="lazy"></iframe>
+    <div class="row row-2col">
+      <div class="panel">
+        <div class="panel-head"><span>1 · gocharting.com</span><a class="panel-open" href="https://gocharting.com" target="_blank" rel="noopener noreferrer">↗</a></div>
+        <iframe class="panel-frame" src="https://gocharting.com" loading="lazy"></iframe>
+      </div>
+      <div class="panel">
+        <div class="panel-head"><span>2 · gocharting.com</span><a class="panel-open" href="https://gocharting.com" target="_blank" rel="noopener noreferrer">↗</a></div>
+        <iframe class="panel-frame" src="https://gocharting.com" loading="lazy"></iframe>
       </div>
     </div>
 
-    <!-- Panel 2: Gráfico Oro (XAUUSD) -->
-    <div class="panel">
-      <div class="panel-head"><span>2 · Gráfico Oro (XAUUSD)</span><a class="panel-open" href="https://es.tradingview.com" target="_blank" rel="noopener noreferrer">↗</a></div>
-      <div class="panel-body">
-        <iframe class="panel-frame" src="https://s.tradingview.com/widgetembed/?symbol=OANDA%3AXAUUSD&interval=D&hidesidetoolbar=0&symboledit=1&saveimage=1&toolbarbg=f1f3f6&studies=[]&theme=dark&style=1&timezone=Etc%2FUTC&allow_symbol_change=1" loading="lazy"></iframe>
+    <div class="row row-2col">
+      <div class="panel">
+        <div class="panel-head"><span>3 · gocharting.com</span><a class="panel-open" href="https://gocharting.com" target="_blank" rel="noopener noreferrer">↗</a></div>
+        <iframe class="panel-frame" src="https://gocharting.com" loading="lazy"></iframe>
+      </div>
+      <div class="panel">
+        <div class="panel-head"><span>4 · gocharting.com</span><a class="panel-open" href="https://gocharting.com" target="_blank" rel="noopener noreferrer">↗</a></div>
+        <iframe class="panel-frame" src="https://gocharting.com" loading="lazy"></iframe>
       </div>
     </div>
 
-    <!-- Panel 3: Gráfico Nasdaq (NAS100) -->
-    <div class="panel">
-      <div class="panel-head"><span>3 · Gráfico Nasdaq (NAS100)</span><a class="panel-open" href="https://es.tradingview.com" target="_blank" rel="noopener noreferrer">↗</a></div>
-      <div class="panel-body">
-        <iframe class="panel-frame" src="https://s.tradingview.com/widgetembed/?symbol=NASDAQ%3ANDX&interval=D&hidesidetoolbar=0&symboledit=1&saveimage=1&toolbarbg=f1f3f6&studies=[]&theme=dark&style=1&timezone=Etc%2FUTC&allow_symbol_change=1" loading="lazy"></iframe>
+    <div class="row row-2col">
+      <div class="panel">
+        <div class="panel-head"><span>5 · gocharting.com</span><a class="panel-open" href="https://gocharting.com" target="_blank" rel="noopener noreferrer">↗</a></div>
+        <iframe class="panel-frame" src="https://gocharting.com" loading="lazy"></iframe>
+      </div>
+      <div class="panel">
+        <div class="panel-head"><span>6 · gocharting.com</span><a class="panel-open" href="https://gocharting.com" target="_blank" rel="noopener noreferrer">↗</a></div>
+        <iframe class="panel-frame" src="https://gocharting.com" loading="lazy"></iframe>
       </div>
     </div>
 
-    <!-- Panel 4: Gráfico Cripto (BTCUSD) -->
-    <div class="panel">
-      <div class="panel-head"><span>4 · Gráfico Cripto (BTCUSD)</span><a class="panel-open" href="https://es.tradingview.com" target="_blank" rel="noopener noreferrer">↗</a></div>
-      <div class="panel-body">
-        <iframe class="panel-frame" src="https://s.tradingview.com/widgetembed/?symbol=BINANCE%3ABTCUSDT&interval=D&hidesidetoolbar=0&symboledit=1&saveimage=1&toolbarbg=f1f3f6&studies=[]&theme=dark&style=1&timezone=Etc%2FUTC&allow_symbol_change=1" loading="lazy"></iframe>
+    <div class="row row-2col">
+      <div class="panel">
+        <div class="panel-head"><span>7 · finviz.com</span><a class="panel-open" href="https://finviz.com" target="_blank" rel="noopener noreferrer">↗</a></div>
+        <iframe class="panel-frame" src="https://finviz.com" loading="lazy"></iframe>
       </div>
-    </div>
-
-    <!-- Panel 5: Gráfico S&P 500 -->
-    <div class="panel">
-      <div class="panel-head"><span>5 · Gráfico S&P 500 (SPX)</span><a class="panel-open" href="https://es.tradingview.com" target="_blank" rel="noopener noreferrer">↗</a></div>
-      <div class="panel-body">
-        <iframe class="panel-frame" src="https://s.tradingview.com/widgetembed/?symbol=CAPITALCOM%3ASP500&interval=D&hidesidetoolbar=0&symboledit=1&saveimage=1&toolbarbg=f1f3f6&studies=[]&theme=dark&style=1&timezone=Etc%2FUTC&allow_symbol_change=1" loading="lazy"></iframe>
-      </div>
-    </div>
-
-    <!-- Panel 6: Gráfico DXY (Índice del Dólar) -->
-    <div class="panel">
-      <div class="panel-head"><span>6 · Gráfico DXY (Índice Dólar)</span><a class="panel-open" href="https://es.tradingview.com" target="_blank" rel="noopener noreferrer">↗</a></div>
-      <div class="panel-body">
-        <iframe class="panel-frame" src="https://s.tradingview.com/widgetembed/?symbol=CAPITALCOM%3ADXY&interval=D&hidesidetoolbar=0&symboledit=1&saveimage=1&timezone=Etc%2FUTC&allow_symbol_change=1" loading="lazy"></iframe>
-      </div>
-    </div>
-
-    <!-- Panel 7: Mapa de Calor Interactivo -->
-    <div class="panel">
-      <div class="panel-head"><span>7 · Mapa de Calor Interactivo</span><a class="panel-open" href="https://es.tradingview.com/heatmap/" target="_blank" rel="noopener noreferrer">↗</a></div>
-      <div class="panel-body">
-        <iframe class="panel-frame" src="https://www.tradingview-widget.com/embed-widget/stock-heatmap/?locale=es#%7B%22exchange%22%3A%22US%22%2C%22dataSource%22%3A%22SPX500%22%2C%22grouping%22%3A%22sector%22%2C%22blockSize%22%3A%22market_cap_basic%22%2C%22blockColor%22%3A%22change%22%2C%22colorTheme%22%3A%22dark%22%2C%22hasTopBar%22%3Atrue%2C%22isDataSetEnabled%22%3Atrue%2C%22isZoomEnabled%22%3Atrue%2C%22hasSymbolTooltip%22%3Atrue%2C%22width%22%3A%22100%25%22%2C%22height%22%3A%22100%25%22%7D" loading="lazy"></iframe>
-      </div>
-    </div>
-
-    <!-- Panel 8: Calendario Económico -->
-    <div class="panel">
-      <div class="panel-head"><span>8 · Calendario Económico</span><a class="panel-open" href="https://es.tradingview.com/events/" target="_blank" rel="noopener noreferrer">↗</a></div>
-      <div class="panel-body">
-        <iframe class="panel-frame" src="https://s.tradingview.com/embed-widget/events/?locale=es#%7B%22colorTheme%22%3A%22dark%22%2C%22isTransparent%22%3Afalse%2C%22width%22%3A%22100%25%22%2C%22height%22%3A%22100%25%22%2C%22importanceFilter%22%3A%220%2C1%22%2C%22currencyFilter%22%3A%22USD%2EUR%2EGBP%2EJPY%2CAUD%22%7D" loading="lazy"></iframe>
+      <div class="panel">
+        <div class="panel-head"><span>8 · forexfactory.com</span><a class="panel-open" href="https://www.forexfactory.com" target="_blank" rel="noopener noreferrer">↗</a></div>
+        <iframe class="panel-frame" src="https://www.forexfactory.com" loading="lazy"></iframe>
       </div>
     </div>
   </section>
 
   <section class="screen-bottom">
-    <!-- Panel 9: TradingView Multi-Asset -->
     <div class="panel">
-      <div class="panel-head"><span>9 · TradingView Multi-Asset</span><a class="panel-open" href="https://es.tradingview.com" target="_blank" rel="noopener noreferrer">↗</a></div>
-      <div class="panel-body">
-        <iframe class="panel-frame" src="https://s.tradingview.com/widgetembed/?symbol=FX%3AGBPUSD&interval=60&hidesidetoolbar=0&symboledit=1&saveimage=1&toolbarbg=f1f3f6&studies=[]&theme=dark&style=1&timezone=Etc%2FUTC&allow_symbol_change=1" loading="lazy"></iframe>
-      </div>
+      <div class="panel-head"><span>9 · tradingview.com</span><a class="panel-open" href="https://es.tradingview.com" target="_blank" rel="noopener noreferrer">↗</a></div>
+      <iframe class="panel-frame" src="https://es.tradingview.com" loading="lazy"></iframe>
     </div>
-
-    <!-- Panel 10: Reloj de Mercados -->
     <div class="panel">
-      <div class="panel-head"><span>10 · Reloj de Mercados (market24hclock.com)</span><a class="panel-open" href="https://market24hclock.com" target="_blank" rel="noopener noreferrer">↗</a></div>
-      <div class="panel-body">
-        <iframe class="panel-frame" src="https://market24hclock.com" loading="lazy"></iframe>
-      </div>
+      <div class="panel-head"><span>10 · market24hclock.com</span><a class="panel-open" href="https://market24hclock.com" target="_blank" rel="noopener noreferrer">↗</a></div>
+      <iframe class="panel-frame" src="https://market24hclock.com" loading="lazy"></iframe>
     </div>
-
-    <!-- Panel 11: Reproductor Spotify con Buscador de Canciones/Artistas -->
+    
     <div class="panel">
-      <div class="panel-head"><span>11 · Spotify Reproductor Interno</span></div>
-      <div class="spotify-container">
-        <div class="spotify-controls">
-          <input type="text" id="spotifyQuery" class="spotify-input" placeholder="Busca artista, canción o URI de Spotify..." value="Eladio Carrion">
-          <button class="spotify-btn" onclick="searchSpotify()">🔍 Buscar</button>
+      <div class="panel-head"><span id="ytPanelTitle">11 · Buscador Multimedia (YouTube)</span></div>
+      <div class="yt-player-container">
+        <div class="yt-search-box">
+          <input type="text" id="ytQuery" class="yt-search-input" placeholder="Buscar artista o canción..." value="Eladio Carrion">
+          <button class="yt-search-btn" onclick="searchYouTubeTracks()">🔍 Buscar</button>
         </div>
-        <div class="spotify-screen">
-          <!-- Reproductor embebido oficial de Spotify en modo oscuro adaptado al panel -->
-          <iframe id="spotifyPlayer" src="https://open.spotify.com/embed/search/Eladio%20Carrion?utm_source=generator&theme=0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+        <div class="yt-layout">
+          <div id="ytResultsList" class="yt-results-list">
+            <div class="yt-result-item">Haz clic en Buscar...</div>
+          </div>
+          <div class="yt-screen">
+            <iframe id="ytInternalPlayer" src="https://www.youtube-nocookie.com/embed/jfKfPfyJRdk?enablejsapi=1&autoplay=0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+          </div>
         </div>
       </div>
     </div>
@@ -273,32 +277,62 @@
 </div>
 
 <script>
-  function searchSpotify() {
-    const query = document.getElementById('spotifyQuery').value.trim();
-    const iframe = document.getElementById('spotifyPlayer');
-    
+  const YT_API_KEY = "AIzaSyCgzchU3x68XVIzwhU-iCbRdJcSwn-1XAo";
+
+  async function searchYouTubeTracks() {
+    const query = document.getElementById('ytQuery').value.trim();
+    const listContainer = document.getElementById('ytResultsList');
     if (!query) return;
 
-    let embedUrl = "";
-    
-    // Si el usuario pega una URI de Spotify directa (ej: spotify:track:...) o un enlace web de Spotify
-    if (query.startsWith('spotify:')) {
-      const parts = query.split(':');
-      const type = parts[1]; // track, album, playlist, artist
-      const id = parts[2];
-      embedUrl = `https://open.spotify.com/embed/${type}/${id}?utm_source=generator&theme=0`;
-    } else if (query.includes('open.spotify.com')) {
-      // Extrae la ruta de un enlace web completo de Spotify
-      const cleanUrl = query.split('?')[0];
-      embedUrl = cleanUrl.replace('open.spotify.com/', 'open.spotify.com/embed/') + '?utm_source=generator&theme=0';
-    } else {
-      // Utiliza el buscador nativo interno de la vista embebida de Spotify
-      const encodedQuery = encodeURIComponent(query);
-      embedUrl = `https://open.spotify.com/embed/search/${encodedQuery}?utm_source=generator&theme=0`;
+    listContainer.innerHTML = '<div class="yt-result-item">Buscando...</div>';
+
+    try {
+      const url = `https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=15&q=${encodeURIComponent(query)}&type=video&key=${YT_API_KEY}`;
+      const response = await fetch(url);
+      const data = await response.json();
+
+      listContainer.innerHTML = '';
+      
+      if (data.error) {
+        listContainer.innerHTML = `<div class="yt-result-item" style="color:#ff4444;">Error: ${data.error.message}</div>`;
+        return;
+      }
+
+      if (!data.items || data.items.length === 0) {
+        listContainer.innerHTML = '<div class="yt-result-item">No se encontraron resultados.</div>';
+        return;
+      }
+
+      data.items.forEach(item => {
+        const videoId = item.id.videoId;
+        let title = item.snippet.title;
+        // Limpiar entidades HTML comunes en los títulos de YouTube
+        title = title.replace(/&amp;/g, '&').replace(/&#39;/g, "'").replace(/&quot;/g, '"');
+        const channel = item.snippet.channelTitle;
+
+        const div = document.createElement('div');
+        div.className = 'yt-result-item';
+        div.innerText = `${title} (${channel})`;
+        div.title = `${title} - ${channel}`;
+        div.onclick = () => playYtVideo(videoId, title);
+        listContainer.appendChild(div);
+      });
+    } catch (err) {
+      listContainer.innerHTML = '<div class="yt-result-item" style="color:#ff4444;">Error de red al buscar.</div>';
     }
-    
-    iframe.src = embedUrl;
   }
+
+  function playYtVideo(videoId, title) {
+    const iframe = document.getElementById('ytInternalPlayer');
+    const headerTitle = document.getElementById('ytPanelTitle');
+    
+    headerTitle.innerText = "▶ " + title;
+    iframe.src = `https://www.youtube-nocookie.com/embed/${videoId}?enablejsapi=1&autoplay=1`;
+  }
+
+  window.onload = () => {
+    searchYouTubeTracks();
+  };
 </script>
 </body>
 </html>
